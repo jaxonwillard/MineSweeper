@@ -24,19 +24,22 @@ public class Tile extends StackPane {
         this.getChildren().addAll(background, cover);
         this.cover.setOpacity(.4);
         this.setOnMouseClicked(event -> {
-            try{
-            this.getChildren().remove(this.cover);
-            if (this.bomb != null){this.getChildren().add(this.bomb);}
-            else {
-                this.getChildren().add(this.count);
-                if (this.count.value == 0){
-                this.board.uncoverAdjacentTiles(this.i, this.j);}
-            }
-        }
-            catch (IllegalArgumentException ignored){}
+            uncover();
+
         });
 
     }
+    public void uncover(){
+        this.getChildren().remove(this.cover);
+        if (this.bomb != null){
+            this.getChildren().add(this.bomb);}
+        else if (!this.getChildren().contains(this.count)) {
+            this.getChildren().add(this.count);
+            if (this.count.value == 0){
+                this.board.uncoverAdjacentTiles(this.i, this.j);}
+        }
+    }
+
     public void setBomb(){
         this.bomb = new Bomb((int) background.getHeight() / 4);
 //        this.getChildren().add(this.bomb);

@@ -45,51 +45,48 @@ public class Board extends GridPane {
         this.tiles[i][j].setCount(count);
     }
     void setBombs(){
-        for (int i=0; i < this.boardSize * this.boardSize / 30; i++){
-//            this.tiles[(int) (Math.random() * boardSize)][(int) (Math.random() * boardSize)].setBomb();
+        for (int i=0; i < this.boardSize * this.boardSize / 10; i++){
+            this.tiles[(int) (Math.random() * boardSize)][(int) (Math.random() * boardSize)].setBomb();
         }
     }
     void uncoverAdjacentTiles(int i, int j){
+        uncoverRightTile  (i,j);
+        uncoverLeftTile   (i,j);
+        uncoverTopTile    (i,j);
+        uncoverBottomTile (i,j);
 
+    }
+    void uncoverRightTile(int i, int j){
+        if (i < this.tiles.length-1 && this.tiles[i+1][j].count != null) {
+            this.tiles[i+1][j].uncover();
+            if (this.tiles[i+1][j].count.value == 0){
+                uncoverRightTile(i+1, j);
+            }
+        }
+    }
+    void uncoverLeftTile(int i, int j){
         if (i > 0 && this.tiles[i-1][j].count != null) {
-            this.tiles[i-1][j].getChildren().remove(this.tiles[i-1][j].cover);
-            this.tiles[i-1][j].getChildren().add(this.tiles[i-1][j].count);
+            this.tiles[i-1][j].uncover();
             if (this.tiles[i-1][j].count.value == 0){
-                uncoverAdjacentTiles(i-1, j);
+                uncoverLeftTile(i-1, j);
             }
         }
-
-
-        if (i > 0 && j > 0 && this.tiles[i-1][j-1].count != null) {
-            if (this.tiles[i-1][j-1].count.value == 0){
-                uncoverAdjacentTiles(i-1, j-1);
+    }
+    void uncoverTopTile(int i, int j){
+        if (j > 0 && this.tiles[i][j-1].count != null) {
+            this.tiles[i][j-1].uncover();
+            if (this.tiles[i][j-1].count.value == 0){
+                uncoverTopTile(i, j-1);
             }
-            this.tiles[i-1][j-1].getChildren().remove(this.tiles[i-1][j-1].cover);
-            this.tiles[i-1][j-1].getChildren().add(this.tiles[i-1][j-1].count);
-            
         }
-
-
-//        if (i > 0 && j < this.boardSize-1 && this.tiles[i-1][j-1].count != null) {
-//            if (this.tiles[i-1][j+1].count.value == 0){
-//                uncoverAdjacentTiles(i-1, j+1);
-//            }
-//            this.tiles[i-1][j-1].getChildren().remove(this.tiles[i-1][j+1].cover);
-//            this.tiles[i-1][j-1].getChildren().add(this.tiles[i-1][j+1].count);
-//        }
-
-
-
-
-
-
-
-
-
-
-
-
-
+    }
+    void uncoverBottomTile(int i, int j){
+        if (j < this.tiles.length-1 && this.tiles[i][j+1].count != null) {
+            this.tiles[i][j+1].uncover();
+            if (this.tiles[i][j+1].count.value == 0){
+                uncoverBottomTile(i, j+1);
+            }
+        }
     }
 
 
