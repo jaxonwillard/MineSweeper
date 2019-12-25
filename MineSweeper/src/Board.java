@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 
 public class Board extends GridPane {
+    int uncoveredCount;
     int boardSize;
     Tile[][] tiles;
     Tile onDeck;
@@ -19,13 +20,13 @@ public class Board extends GridPane {
     ArrayList<Position> flaggedPositions;
 
     Board(int size, int height) {
+        this.uncoveredCount = 0;
         this.flaggedPositions = new ArrayList<>();
         this.bombPositions = new ArrayList<>();
         this.boardSize = size;
         this.tiles = new Tile[this.boardSize][this.boardSize];
         addTiles(height);
         setBombs();
-        System.out.println("this.bombPositions.size() = " + this.bombPositions.size());
         for (int i = 0; i < this.tiles.length; i++) {
             for (int j = 0; j < this.tiles.length; j++) {
                 setCount(i, j, size);
@@ -126,6 +127,7 @@ public class Board extends GridPane {
             if (this.onDeck.bomb != null) {
                 endGame();
             }
+            checkWinningBoard();
         }
         if (key.equals("F")) {
             if (this.onDeck.flag == null) {
@@ -140,13 +142,14 @@ public class Board extends GridPane {
     }
 
     void checkWinningBoard() {
-        int count = 0;
-        for (Position p : bombPositions) {
-            for (Position f : flaggedPositions) {
-                if (p.equals(f)) count++;
-            }
+        System.out.println("+==========================================");
+        System.out.println("uncoveredCount = " + uncoveredCount);
+        System.out.println("this.bombPositions.size() = " + this.bombPositions.size());
+        System.out.println("this.tiles.length = " + this.tiles.length);
+        if (this.uncoveredCount == (this.tiles.length * this.tiles.length) - this.bombPositions.size()){
+            System.out.println("WINNER!");
+            System.exit(-9);
         }
-        if (count == bombPositions.size()) System.out.println("Winner");
     }
 
     void endGame() {

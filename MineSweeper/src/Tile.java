@@ -36,7 +36,6 @@ public class Tile extends StackPane {
         this.getChildren().addAll(background, cover);
         this.cover.setOpacity(.4);
         this.setOnMouseClicked(event -> {
-            System.out.println("this.getW = " + this.getWidth());
             if (this.board.onDeck != null) this.board.onDeck.stopFT();
             this.board.onDeck = this;
             this.highlight = new Rectangle(this.getWidth(), this.getHeight(), Color.YELLOW);

@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 
 public class MineSweeper extends Application {
     public void start(Stage stage){
-        Board board = new Board(16, (int) stage.getHeight());
+        Board board = new Board(4, (int) stage.getHeight());
         stage.setHeight(452);
         stage.setWidth(430.6666);
 //        BorderPane menu = new BorderPane();
